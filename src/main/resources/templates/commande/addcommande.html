@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="x-ua-compatible" content="ie=edge">
+ <title>Add Provider</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <link rel="stylesheet"
+href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+integrity="sha384-
+MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+crossorigin="anonymous">
+ <link rel="stylesheet"
+href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+integrity="sha384-
+5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+crossorigin="anonymous">
+ <!-- <link rel="stylesheet" href="../css/shards.min.css"> -->
+</head>
+<body>
+ <div class="container my-5">
+ <h3> Add Commande</h3>
+ <div class="card">
+ <div class="card-body">
+ <div class="col-md-10">
+ <form action="#" th:action="@{/commande/add}"
+th:object="${commande}" method="post">
+ <div class="row">
+ <div class="form-group col-md-8">
+ <label for="DateCommande" class="col-formlabel">Date Commande</label> <input type="text" th:field="*{DateCommande}" class="form-control"
+id="DateCommande" placeholder="Date Commande"> <span th:if="${#fields.hasErrors('DateCommande')}"
+th:errors="*{DateCommande}" class="text-danger"></span>
+ </div>
+ <div class="form-group col-md-8">
+ <label for="prixunit" class="col-formlabel">prix unit</label> <input type="text" th:field="*{prixunit}" class="formcontrol" id="prixunit" placeholder="prixunit"> <span
+th:if="${#fields.hasErrors('prixunit')}" th:errors="*{prixunit}" class="textdanger"></span>
+ </div>
+<div class="form-group col-md-8">
+ <label for="quantiteDemandee" class="col-formlabel">quantite Demandee</label> <input type="text" th:field="*{quantiteDemandee}" class="formcontrol" id="quantiteDemandee" placeholder="quantiteDemandee"> <span
+th:if="${#fields.hasErrors('quantiteDemandee')}" th:errors="*{quantiteDemandee}" class="textdanger"></span>
+ </div>
+ <div class="col-md-6">
+ <input type="submit" class="btn btn-danger"
+value="Add Commande">
+ </div>
+ <div class="form-group col-md-8"></div>
+ </div>
+ </form>
+ </div>
+ </div>
+ </div>
+ </div>
+</body>
+</html>
+ 

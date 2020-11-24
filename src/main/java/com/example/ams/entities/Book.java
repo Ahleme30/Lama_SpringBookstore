@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Book {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue
 	private long id;
 	@Column(name = "title")
 	private String title;
