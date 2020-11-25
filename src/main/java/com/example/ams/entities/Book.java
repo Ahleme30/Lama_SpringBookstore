@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 @Entity
 public class Book {
@@ -18,12 +20,13 @@ public class Book {
 	@Column(name = "title")
 	private String title;
 	@Column(name = "picture")
-	private String picture;
+	private byte[] picture;
 	@Column(name = "author")
 	private String author;
 	@Column(name = "releaseDate")
 	@JsonFormat(shape=JsonFormat.Shape.STRING,pattern="yyyy-MM-dd",timezone = "GMT+5:30")
-
+	@DateTimeFormat(pattern = "yyyy-dd-MM")
+//	@Temporal(TemporalType.DATE)
 	private LocalDate  releaseDate;
 	@Column(name = "price")
 	private float price;
@@ -40,7 +43,7 @@ public class Book {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Book(long id, String title, String picture, String author, LocalDate releaseDate, float price) {
+	public Book(long id, String title,  byte[] picture, String author, LocalDate releaseDate, float price) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -61,10 +64,10 @@ public class Book {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getPicture() {
+	public  byte[] getPicture() {
 		return picture;
 	}
-	public void setPicture(String picture) {
+	public void setPicture( byte[] picture) {
 		this.picture = picture;
 	}
 	public String getAuthor() {

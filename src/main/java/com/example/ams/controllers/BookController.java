@@ -7,15 +7,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.example.ams.entities.Book;
 import com.example.ams.repositories.BookRepository;
 
+import java.io.IOException;
 import java.util.List;
 //import javax.validation.Valid;
 
 import javax.validation.Valid;
- 
+import org.springframework.util.StringUtils;
+
 @Controller
 @RequestMapping("/book/")
 
@@ -51,9 +55,16 @@ public class BookController {
 	}
 	
 	@PostMapping("add")
-	public String addBook(@Valid Book book, BindingResult result, Model model) {
+	public String addBook(@RequestParam("picture") MultipartFile file,@Valid Book book, BindingResult result, Model model) {
 	if (result.hasErrors()) {
 	return "book/addBook";
+	}
+	 String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+	 try {
+		book.setPicture(file.getBytes());
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
 	}
 	bookrepository.save(book);
 	return "redirect:list";

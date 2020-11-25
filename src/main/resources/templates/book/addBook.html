@@ -14,6 +14,21 @@ href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
 integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
 crossorigin="anonymous">
  <!-- <link rel="stylesheet" href="../css/shards.min.css"> -->
+ <script>
+/*var base64Image = "";
+function readFile() {
+    if (this.files && this.files[0]) {
+        var FR = new FileReader();
+        FR.addEventListener("load", function(e) {
+            document.getElementById("image-file").src = e.target.result;
+            var urlImage = e.target.result.split(',');
+            base64Image = urlImage[1];
+        });
+        FR.readAsDataURL(this.files[0]);
+    }
+   
+}*/
+</script>
 </head>
 <body>
  <div class="container my-5">
@@ -22,7 +37,7 @@ crossorigin="anonymous">
  <div class="card-body">
  <div class="col-md-10">
  <form action="#" th:action="@{/book/add}"
-th:object="${book}" method="post">
+th:object="${book}" method="post"  enctype="multipart/form-data">
  <div class="row">
  <div class="form-group col-md-8">
  <label for="title" class="col-formlabel">Title</label> <input type="text" th:field="*{title}" class="form-control"
@@ -45,8 +60,8 @@ th:if="${#fields.hasErrors('releaseDate')}" th:errors="*{releaseDate}" class="te
 </div>
 <div class="form-group col-md-8">
  <label for="picture" class="col-formlabel">Picture</label>
- <input class="form-control" type="file"
-name="files" multiple>
+ <input class="form-control" type="file"  id="file"  th:field="*{picture}"
+name="file" multiple>
  </div>
  <div class="col-md-6">
  <input type="submit" class="btn btn-primary"
