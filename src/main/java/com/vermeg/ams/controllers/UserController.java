@@ -46,7 +46,7 @@ public class UserController {
 	public String showaddform(Model model) {
 		User client = new User();
 		model.addAttribute("client", client);
-		return "client/addclient";
+		return "client/addClient";
 	}
 
 	@GetMapping("show/{id}")
