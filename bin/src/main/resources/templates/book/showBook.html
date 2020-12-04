@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
  <meta charset="utf-8">
- <meta http-equiv="x-ua-compatible" content="ie=edge">
+ <meta http-equiv="x-ua-compatible" content="ie=edge">	
  <title>Show Book</title>
  <meta name="viewport" content="width=device-width, initial-scale=1">
  <link rel="stylesheet"
@@ -16,46 +16,57 @@ integrity="sha384-
 5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
 crossorigin="anonymous">
 </head>
-<body>
+<body style="background:url('/uploads/lamabg.png')">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<a class="navbar-brand" href="#"> <img src="/uploads/lamalogo.png"  width="60" height="60" class="d-inline-block align-left" > LAMA BookStore</a>
+		<div class="collapse navbar-collapse" id="navbarText">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item"><a class="nav-link" href="/book/list/">Book</a></li>
+				<li class="nav-item"><a class="nav-link" href="/order/list/">Order</a></li>
+				<!-- <li class="nav-item"><a class="nav-link" href="#">About Us</a></li>-->
+			</ul>
+		</div>
+	</nav>
  <div class="container my-5">
  <h3 align="center">Book details</h3>
- <div class="card">
+ <div class="card" style="background : rgba(255,255,255,.0);
+box-shadow: 0 5px 15px rgba(0,0,0,.7) color:white;">
  <div class="card-body">
  <div class="col-md-8">
  <form action="#" method="">
  <div class="row">
  <div class="form-group col-md-6">
- <label for="label" class="col-formlabel">ID</label>
- <p th:text="${book.idBook}">Id</p>
+ <label for="label" class="col-formlabel" style="color : rgb(51,0,0)"><b>ID</b></label>
+ <b><p th:text="${book.idBook}"></b> </p>
  </div>
 
 <div class="form-group col-md-6">
- <label for="label" class="col-formlabel">Title</label>
- <p th:text="${book.title}">Title</p>
+ <label for="label" class="col-formlabel" style="color : rgb(51,0,0)"><b><h4>TITLE</h4></b></label>
+ <b><p th:text="${book.title}"> </b></p>
  </div>
 <div class="form-group col-md-6">
- <label for="label" class="col-formlabel">Price</label>
- <p th:text="${book.price}">Price</p>
+ <label for="label" class="col-formlabel" style="color : rgb(51,0,0)"> <b> <h4>PRICE </h4></b></label>
+ <b><p th:text="${book.price}"></b></p>
  </div>
 <div class="form-group col-md-6">
- <label for="label" class="col-formlabel">Author</label>
- <p
-th:text="${book.author}">Author</p>
+ <label for="label" class="col-formlabel" style="color : rgb(51,0,0)"> <b> <h4>AUTHOR </h4> </b></label>
+ <b><p
+th:text="${book.author}"></b></p>
  </div>
  <div class="form-group col-md-8">
- <label for="releaseDate" class="col-formlabel">releaseDate</label>
+ <label for="releaseDate" class="col-formlabel" style="color : rgb(51,0,0)"> <b> <h4>RELEASE-DATE </h4> </b></label>
   <input type="date" th:field="${book.releaseDate}" readonly="true" name="releaseDate"  id="releaseDate" title="trip-start">      
 </div>
  <div class="form-group col-md-6">
- <label for="label" class="col-formlabel">Picture</label>
- <img alt="${book.getcoverImage()}" th:src="@{'/uploads/'+
-${book.coverImage}}" width="700" height="700"/>
+ <label for="label" class="col-formlabel" style="color : rgb(51,0,0)"> <b> <h4>PICTURE  </h4></b></label>
+ <img  th:src="@{'/uploads/'+
+${book.coverImage.toString()}}" width="250" height="250"/>
  </div> 
 
 <div class="form-group col-md-8">
 
  <a th:href="@{/book/list}"> <input
-type="button" class="btn btn-primary" value="return to Book list"></a>
+type="button" class="btn btn-dark" value="return to Book list"></a>
 
  </div>
  </div>

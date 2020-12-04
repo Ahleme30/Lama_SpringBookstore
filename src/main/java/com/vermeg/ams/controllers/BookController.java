@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.xml.ws.RespectBinding;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.vermeg.ams.entities.Book;
@@ -28,17 +30,17 @@ import com.vermeg.ams.repositories.BookRepository;
 @RequestMapping("/book/")
 public class BookController {
 
-	private BookRepository bookrepository;
+	private BookRepository bookRepository;
 	public static String uploadDirectory =
 			System.getProperty("user.dir")+"/src/main/resources/static/uploads";
 	@Autowired
-	public BookController(BookRepository bookrepository) {
-		this.bookrepository = bookrepository;
+	public BookController(BookRepository bookRepository) {
+		this.bookRepository = bookRepository;
 	}
 
 	@GetMapping("list")
 	public String listbooks(Model model) {
-		List<Book> liste = (List<Book>) bookrepository.findAll();
+		List<Book> liste = (List<Book>) bookRepository.findAll();
 		if (liste.size() == 0)
 			liste = null;
 		model.addAttribute("books", liste);
@@ -53,7 +55,7 @@ public class BookController {
 	}
 	@GetMapping("show/{id}")
 	public String ShowBookDetails(@PathVariable("id")int id,Model m) {
-		Book b = bookrepository.findById(id)
+		Book b = bookRepository.findById(id)
 				.orElseThrow(()-> new IllegalArgumentException("invalid book id"+id));
 		m.addAttribute("book", b);
 		return"book/showBook";
@@ -76,7 +78,7 @@ public class BookController {
 		}
 		book.setCoverImage(fileName.toString());
 
-		bookrepository.save(book);
+		bookRepository.save(book);
 		return "redirect:list";
 
 	
@@ -86,16 +88,16 @@ public class BookController {
 	@GetMapping("delete/{id}")
 	public String deleteBook(@PathVariable("id") int id, Model model) {
 
-		Book book = bookrepository.findById(id)
+		Book book = bookRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
-		bookrepository.delete(book);
+		bookRepository.delete(book);
 
 		return "redirect:../list";
 	}
 
 	@GetMapping("edit/{id}")
 	public String showBookFormToUpdate(@PathVariable("id") int id, Model model) {
-		Book book = bookrepository.findById(id)
+		Book book = bookRepository.findById(id)
 				.orElseThrow(() -> new IllegalArgumentException("Invalid book Id:" + id));
 		model.addAttribute("book", book);
 		return "book/updateBook";
@@ -120,7 +122,7 @@ public class BookController {
 		book.setCoverImage(fileName.toString());
 
 	
-		bookrepository.save(book);
+		bookRepository.save(book);
 		return "redirect:list";
 	}
 

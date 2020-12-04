@@ -3,6 +3,7 @@ package com.vermeg.ams.entities;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,17 +16,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-//@Table (name = "order")
+@Table (name = "order")
 public class Order {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id_order")
-	private int idOrder;
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private int id;
 
 	@Column(name = "orderDate")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "GMT+5:30")
@@ -34,7 +38,15 @@ public class Order {
 
 	@Column(name = "price")
 	private double price;
+/*
+	@ManyToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE,
+			 CascadeType.DETACH, CascadeType.REFRESH})
+	@JoinColumn(name = "id_client")*/
+	//private User user_u;
 
+    @OneToMany(mappedBy="order",cascade=CascadeType.MERGE)
+    private List<OrderDetails> orderDetails;
+    
 	public double getPrice() {
 		return price;
 	}
@@ -60,11 +72,11 @@ public class Order {
 	}
 
 	public int getIdOrder() {
-		return idOrder;
+		return id;
 	}
 
 	public void setIdOrder(int idOrder) {
-		this.idOrder = idOrder;
+		this.id = idOrder;
 	}
 
 	public LocalDate getOrderDate() {
@@ -75,65 +87,20 @@ public class Order {
 		this.orderDate = orderDate;
 	}
 
-	@Override
-	public String toString() {
-		return "Order [idOrder=" + idOrder + ", orderDate=" + orderDate + "]";
+	public int getId() {
+		return id;
 	}
 
-	/*@OneToMany(mappedBy = "co", fetch = FetchType.LAZY)
-	private List<OrderDetails> lignecom;*/
-
-	// select from id_book from orderdetail where id_order=?1
-	//
-
-	@ManyToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE,
-			 CascadeType.DETACH, CascadeType.REFRESH})
-	@JoinColumn(name = "id_client")
-	private Client client_c;
-
-	/*public List<OrderDetails> getLignecom() {
-		return lignecom;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public void setLignecom(List<OrderDetails> lignecom) {
-		this.lignecom = lignecom;
-	}
-*/
-	public Client getClient() {
-		return  client_c;
+	public List<OrderDetails> getOrderDetails() {
+		return orderDetails;
 	}
 
-	public void setClient(Client client) {
-		this.client_c = client;
+	public void setOrderDetails(List<OrderDetails> orderDetails) {
+		this.orderDetails = orderDetails;
 	}
-	
-	
-	
-	@ManyToMany(fetch=FetchType.LAZY,
-			cascade= {CascadeType.PERSIST, CascadeType.MERGE,
-			 CascadeType.DETACH, CascadeType.REFRESH})
-	@JoinTable(
-			name="order_details",
-			joinColumns=@JoinColumn(name="id_order"),
-			inverseJoinColumns=@JoinColumn(name="id_book")
-			)	
-	private List<Book> books;
 
-	public void addmybooks(Book book) {
-		if (books == null) {
-			books = new ArrayList<>();
-		}
-
-		books.add(book);
-	}
-	public List<Book> getmybooks(){
-		return books;
-	}
-	
-	
-
-/*public void addorderdetails(OrderDetails orderdetail) {
-		this.lignecom.add(orderdetail);
-	}
-*/
 }

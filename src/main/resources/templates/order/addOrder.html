@@ -34,7 +34,7 @@
 <label for="client" class="col-form-label" style="color : rgb(51,0,0)"><b>Client :</b></label>
 <label >
 <select name="idclient" class="form-control">
-<option th:each="client : ${clients}"  th:value="${client.idClient}" th:text="${client.getln()}"/>
+<option th:each="client : ${clients}"  th:value="${client.id}" th:text="${client.firstName+' '+client.lastName}"/>
  </select>
 </label>
 </div>

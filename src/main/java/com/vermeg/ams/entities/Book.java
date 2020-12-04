@@ -1,6 +1,7 @@
 package com.vermeg.ams.entities;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,18 +13,21 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-//@Table(name = "books")
+@Table(name = "books")
 public class Book {
 	@Id
 	@GeneratedValue
-	@Column(name = "id_book")
-	private int idBook;
+	@Column(name = "id")
+	private int id;
 
 	@Column(name = "title")
 
@@ -45,10 +49,7 @@ public class Book {
 	@Column(name = "coverImage")
 	private String coverImage;
 
-//@Column (name="quantity")
-
-//private int quantity;
-
+	
 	public Book() {
 
 	}
@@ -64,11 +65,11 @@ public class Book {
 	}
 
 	public int getIdBook() {
-		return idBook;
+		return id;
 	}
 
 	public void setIdBook(int idBook) {
-		this.idBook = idBook;
+		this.id = idBook;
 	}
 
 	public String getTitle() {
@@ -111,36 +112,13 @@ public class Book {
 		this.coverImage = coverImage;
 	}
 
-//public int getQuantity() {
-	// return quantity;
-//}
-
-//public void setQuantity(int quantity) {
-	// this.quantity = quantity;
-//}
-	@Override
-	public String toString() {
-		return "Book [idBook=" + idBook + ", title=" + title + ", price=" + price + ", releaseDate=" + releaseDate
-				+ ", author=" + author + ", coverImage=" + coverImage + "]";// + ", quantity=" + quantity + "]";
+	public int getId() {
+		return id;
 	}
 
-	/*
-	 * @JsonIgnore
-	 * 
-	 * @OneToMany(mappedBy="book",fetch=FetchType.LAZY) private Collection
-	 * <OrderDetails> ligneco;
-	 * 
-	 * 
-	 * 
-	 * public Collection<OrderDetails> getLigneco() { return ligneco; }
-	 * 
-	 * public void setLigneco(Collection<OrderDetails> ligneco) { this.ligneco =
-	 * ligneco; }
-	 */
+	public void setId(int id) {
+		this.id = id;
+	}
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
-			CascadeType.REFRESH })
-	@JoinTable(name = "order_details", joinColumns = @JoinColumn(name = "id_book"), inverseJoinColumns = @JoinColumn(name = "id_order"))
-	private List<Order> orders;
 
 }

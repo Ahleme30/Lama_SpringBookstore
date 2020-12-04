@@ -47,6 +47,10 @@ box-shadow: 0 5px 15px rgba(0,0,0,.7) color:white;"> >
 										<th scope="col"style="color : rgb(51,0,0)">Adress</th>
 										<th scope="col"style="color : rgb(51,0,0)">Mail</th>
 										<th scope="col"style="color : rgb(51,0,0)">PhoneNumber</th>
+										<th scope="col"style="color : rgb(51,0,0)">Role</th>
+										<th scope="col"style="color : rgb(51,0,0)">is Active</th>
+                                        <th scope="col"style="color : rgb(51,0,0)">Activer</th>
+                                        <th scope="col"style="color : rgb(51,0,0)">Désactiver</th>
 										<th scope="col"style="color : rgb(51,0,0)">Edit</th>
 										<th scope="col"style="color : rgb(51,0,0)">Delete</th>
 									</tr>
@@ -56,13 +60,18 @@ box-shadow: 0 5px 15px rgba(0,0,0,.7) color:white;"> >
 										<td scope="row" th:text="${client.firstName}"style="color : rgb(51,0,0)"></td>
 										<td scope="row" th:text="${client.lastName}"style="color : rgb(51,0,0)"></td>
 										<td scope="row" th:text="${client.adress}"style="color : rgb(51,0,0)"></td>
-										<td scope="row" th:text="${client.mail}"style="color : rgb(51,0,0)"></td>
+										<td scope="row" th:text="${client.email}"style="color : rgb(51,0,0)"></td>
 										<td scope="row" th:text="${client.phoneNumber}"style="color : rgb(51,0,0)"></td>
+										<td scope="row" th:each="role : ${client.roleList}"  style="color : rgb(51,0,0)">
+											<span th:text="${role.role}"></span></td>
+										<td scope="row" th:text="${client.active}"style="color : rgb(51,0,0)"></td>
+										<td scope="row" th:text="${client.isAdmin}"style="color : rgb(51,0,0)"></td>
+										<td scope="row" th:text="${!client.isAdmin}"style="color : rgb(51,0,0)"></td>
 										<td scope="row"><a
-											th:href="@{/client/edit/{id}(id=${client.idClient})}"
+											th:href="@{/client/edit/{id}(id=${client.id})}"
 											class="btn btn-outline-dark"><i class="fas fa-user-edit ml-2"></i></a></td>
 										<td scope="row"><a
-											th:href="@{/client/delete/{id}(id=${client.idClient})}"
+											th:href="@{/client/delete/{id}(id=${client.id})}"
 											class="btn btn-outline-danger"><i class="fas fa-user-times ml-2"></i></a></td>
 									</tr>
 								</tbody>

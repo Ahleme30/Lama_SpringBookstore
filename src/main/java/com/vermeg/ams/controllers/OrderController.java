@@ -1,10 +1,14 @@
 package com.vermeg.ams.controllers;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
+import org.hibernate.cfg.annotations.ListBinder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vermeg.ams.entities.Book;
-import com.vermeg.ams.entities.Client;
+import com.vermeg.ams.entities.User;
 import com.vermeg.ams.entities.Order;
+import com.vermeg.ams.entities.OrderDetails;
 import com.vermeg.ams.repositories.BookRepository;
-import com.vermeg.ams.repositories.ClientRepository;
+import com.vermeg.ams.repositories.UserRepository;
 import com.vermeg.ams.repositories.OrderRepository;
 
 @Controller
@@ -28,14 +33,14 @@ import com.vermeg.ams.repositories.OrderRepository;
 public class OrderController {
 
 	private OrderRepository orderRepository;
-	private ClientRepository clientrepository;
+	private UserRepository userRepository;
 	private BookRepository bookrepository;
 
 	@Autowired
-	public OrderController(OrderRepository orderRepository, ClientRepository clientrepository,
+	public OrderController(OrderRepository orderRepository, UserRepository userRepository,
 			BookRepository bookrepository) {
 		this.orderRepository = orderRepository;
-		this.clientrepository = clientrepository;
+		this.userRepository = userRepository;
 		this.bookrepository = bookrepository;
 	}
 
@@ -57,30 +62,44 @@ public class OrderController {
 		LocalDate lt = LocalDate.now();
 		order.setOrderDate(lt);
 		model.addAttribute("order", order);
-		List<Client> cl = (List<Client>) clientrepository.findAll();
+		List<User> cl = (List<User>) userRepository.findAll();
 		model.addAttribute("clients", cl);
 		List<Book> lb = (List<Book>) bookrepository.findAll();
 		model.addAttribute("books", lb);
 		return "order/addorder";
 	}
-
+	
 	@PostMapping("add")
 	// @ResponseBody
+	
+	
 	public String addOrder(@Valid Order order, @RequestParam("checkid") List<Integer> listids,
-			@RequestParam("idclient") int idclient) {
+			@RequestParam("idclient") int idUser) {
 		double prices =0.0;
-		Client client = clientrepository.findById(idclient)
-				.orElseThrow(() -> new IllegalArgumentException("invalid client"));
-		order.setClient(client);
-
+		User user = userRepository.findById(idUser)
+				.orElseThrow(() -> new IllegalArgumentException("invalid user"));
+	//	order.setUser_u(user);
+		List<OrderDetails> lisb= new ArrayList<OrderDetails>();
+	
 		for (int i = 0; i < listids.size(); i++) {
-
+			OrderDetails ord=new OrderDetails();
+			
 			Book b = bookrepository.findById(listids.get(i))
 					.orElseThrow(() -> new IllegalArgumentException("invalid id "));
+			ord.setBook(b);
+			ord.setIdLC(idUser);
+			ord.setPrixUnitaire(b.getPrice());
+			ord.setQuantiteeCommandee(1);
 			prices+=b.getPrice();
-
-			order.addmybooks(b);
-		}
+			lisb.add(ord);
+			}
+	//	List<OrderDetails> setlisb = new HashSet<OrderDetails>(lisb);
+		System.out.print("**********************molka");
+		System.out.print(lisb.get(0).getPrixUnitaire());
+		System.out.print(lisb.get(1).toString());
+		//System.out.print(setlisb.getClass().toString());
+		
+		order.setOrderDetails(lisb);
 		order.setPrice(prices);
 		orderRepository.save(order);
 		return "redirect:list";
@@ -91,11 +110,11 @@ public class OrderController {
 		
 		Order o = orderRepository.findById(id)
 				.orElseThrow(()-> new IllegalArgumentException("Invalid ID"+id));
-		List<Book> mybooks = o.getmybooks();
+	//	List<Book> mybooks = o.getmybooks();
 		System.out.println("------------------------------------------------------------------------");
-		System.out.println(mybooks.size()+mybooks.toString());
+		//System.out.println(mybooks.size()+mybooks.toString());
 		System.out.println("**************************************************************************");
-		m.addAttribute("mybooks", mybooks);
+	//	m.addAttribute("mybooks", mybooks);
 		return"order/details";
 	}
 	
@@ -127,5 +146,6 @@ public class OrderController {
 		}
 		orderRepository.save(order);
 		return "redirect:list";
-	}
+	} 
+	
 }
